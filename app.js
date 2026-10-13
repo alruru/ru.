@@ -481,11 +481,11 @@ document.querySelectorAll('.nutrition-barcode-button').forEach(button => {
         message.textContent =
           'Продукт найден! Проверь данные: показатели указаны на 100 г.';
       } catch (error) {
-        message.textContent =
-          'Не удалось связаться с базой. Проверь интернет и попробуй ещё раз.';
-      } finally {
-        button.disabled = false;
-      }
+  console.error('Ошибка поиска продукта:', error);
+  message.textContent = 'Ошибка: ' + error.message;
+} finally {
+  button.disabled = false;
+}
     });
   });document.querySelectorAll('.nutrition-camera-button').forEach(button => {
     button.addEventListener('click', async () => {
