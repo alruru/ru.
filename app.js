@@ -346,12 +346,17 @@ function renderNutrition() {
 
   </label>
 
-  <button type="button" class="nutrition-barcode-button">
+  <button type="button" class="nutrition-camera-button">
 
-    Найти продукт
+  Сканировать камерой
 
-  </button>
+</button>
+<div class="nutrition-camera-reader" hidden></div>
+<button type="button" class="nutrition-barcode-button">
 
+  Найти продукт
+
+</button>
   <p class="nutrition-barcode-message"></p>
 
 </div>
@@ -483,7 +488,74 @@ document.querySelectorAll('.nutrition-barcode-button').forEach(button => {
       }
     });
   });
-
+document.querySelectorAll('.nutrition-barcode-button').forEach(button => {
+    button.addEventListener('click', async () => {
+      const form = button.closest('.nutrition-product-form');
+      const barcodeInput = form.querySelector('[name="barcode"]');
+      const message = form.querySelector('.nutrition-barcode-message');
+      const barcode = barcodeInput.value.trim();
+ 
+      if (!/^\d{8,14}$/.test(barcode)) {
+        message.textContent = 'Введи корректный штрихкод из 8–14 цифр.';
+        return;
+      }
+ 
+      button.disabled = true;
+      message.textContent = 'Ищу продукт в базе…';
+ 
+      try {
+        const response = await fetch(
+          `https://world.openfoodfacts.org/api/v2/product/${barcode}.json`
+        );
+ 
+        if (!response.ok) {
+          throw new Error('Ошибка сети');
+        }
+ 
+        const data = await response.json();
+        const product = data.product;
+ 
+        if (data.status !== 1 || !product) {
+          message.textContent = 'Продукт не найден. Проверь штрихкод или введи данные вручную.';
+          return;
+        }
+ 
+        const nutrients = product.nutriments || {};
+        const nameInput = form.querySelector('[name="name"]');
+ 
+        nameInput.value =
+          product.product_name_ru ||
+          product.product_name ||
+          product.product_name_en ||
+          '';
+ 
+        form.elements.calories.value = Math.round(
+          nutrients['energy-kcal_100g'] ??
+          ((nutrients['energy-kj_100g'] || 0) / 4.184)
+        );
+ 
+        form.elements.protein.value = Math.round(
+          (nutrients.proteins_100g || 0) * 10
+        ) / 10;
+ 
+        form.elements.fat.value = Math.round(
+          (nutrients.fat_100g || 0) * 10
+        ) / 10;
+ 
+        form.elements.carbs.value = Math.round(
+          (nutrients.carbohydrates_100g || 0) * 10
+        ) / 10;
+ 
+        message.textContent =
+          'Продукт найден! Проверь данные: показатели указаны на 100 г.';
+      } catch (error) {
+        message.textContent =
+          'Не удалось связаться с базой. Проверь интернет и попробуй ещё раз.';
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
   document.querySelectorAll('[data-product-form]').forEach(form => {
     form.addEventListener('submit', event => {
       event.preventDefault();

@@ -1194,3 +1194,49 @@ a.brand span {
   width: 100%;
   border-radius: 14px;
 }
+/* Кнопки поиска продукта в ru. */
+.nutrition-barcode-button,
+.nutrition-camera-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 18px;
+  border: 1px solid #d8c5ad;
+  border-radius: 14px;
+  background: #f3ece2;
+  color: #6f513d;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.nutrition-barcode-button:hover,
+.nutrition-camera-button:hover {
+  background: #e9ddce;
+}
+
+.nutrition-barcode-button:active,
+.nutrition-camera-button:active {
+  transform: scale(0.98);
+}
+
+.nutrition-barcode-button:disabled,
+.nutrition-camera-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.nutrition-camera-reader {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  margin-top: 12px;
+}
+
+.nutrition-camera-reader[hidden] {
+  display: none;
+}
