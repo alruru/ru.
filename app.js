@@ -487,72 +487,57 @@ document.querySelectorAll('.nutrition-barcode-button').forEach(button => {
         button.disabled = false;
       }
     });
-  });
-document.querySelectorAll('.nutrition-barcode-button').forEach(button => {
+  });document.querySelectorAll('.nutrition-camera-button').forEach(button => {
     button.addEventListener('click', async () => {
       const form = button.closest('.nutrition-product-form');
       const barcodeInput = form.querySelector('[name="barcode"]');
+      const reader = form.querySelector('.nutrition-camera-reader');
       const message = form.querySelector('.nutrition-barcode-message');
-      const barcode = barcodeInput.value.trim();
- 
-      if (!/^\d{8,14}$/.test(barcode)) {
-        message.textContent = 'Введи корректный штрихкод из 8–14 цифр.';
+
+      if (typeof Html5Qrcode === 'undefined') {
+        message.textContent = 'Сканер не загрузился. Проверь интернет.';
         return;
       }
- 
+
+      if (reader.dataset.running === 'true') {
+        return;
+      }
+
+      reader.hidden = false;
+      reader.id = 'nutrition-reader';
       button.disabled = true;
-      message.textContent = 'Ищу продукт в базе…';
- 
+
+      const scanner = new Html5Qrcode(reader.id);
+      message.textContent = 'Запрашиваю доступ к камере…';
+
       try {
-        const response = await fetch(
-          `https://world.openfoodfacts.org/api/v2/product/${barcode}.json`
+        await scanner.start(
+          { facingMode: 'environment' },
+          { fps: 10, qrbox: { width: 250, height: 150 } },
+          async decodedText => {
+            barcodeInput.value = decodedText;
+            message.textContent = 'Штрихкод считан!';
+
+            try {
+              await scanner.stop();
+            } catch (error) {}
+
+            reader.dataset.running = 'false';
+            reader.hidden = true;
+            button.disabled = false;
+
+            form.querySelector('.nutrition-barcode-button').click();
+          },
+          () => {}
         );
- 
-        if (!response.ok) {
-          throw new Error('Ошибка сети');
-        }
- 
-        const data = await response.json();
-        const product = data.product;
- 
-        if (data.status !== 1 || !product) {
-          message.textContent = 'Продукт не найден. Проверь штрихкод или введи данные вручную.';
-          return;
-        }
- 
-        const nutrients = product.nutriments || {};
-        const nameInput = form.querySelector('[name="name"]');
- 
-        nameInput.value =
-          product.product_name_ru ||
-          product.product_name ||
-          product.product_name_en ||
-          '';
- 
-        form.elements.calories.value = Math.round(
-          nutrients['energy-kcal_100g'] ??
-          ((nutrients['energy-kj_100g'] || 0) / 4.184)
-        );
- 
-        form.elements.protein.value = Math.round(
-          (nutrients.proteins_100g || 0) * 10
-        ) / 10;
- 
-        form.elements.fat.value = Math.round(
-          (nutrients.fat_100g || 0) * 10
-        ) / 10;
- 
-        form.elements.carbs.value = Math.round(
-          (nutrients.carbohydrates_100g || 0) * 10
-        ) / 10;
- 
-        message.textContent =
-          'Продукт найден! Проверь данные: показатели указаны на 100 г.';
+
+        reader.dataset.running = 'true';
+        message.textContent = 'Наведи камеру на штрихкод.';
       } catch (error) {
-        message.textContent =
-          'Не удалось связаться с базой. Проверь интернет и попробуй ещё раз.';
-      } finally {
+        reader.hidden = true;
         button.disabled = false;
+        message.textContent =
+          'Не удалось открыть камеру. Проверь разрешение и HTTPS.';
       }
     });
   });
