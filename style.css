@@ -1,0 +1,1196 @@
+/* RU — дневной планер */
+
+.eva-day {
+  padding: 12px 0 24px;
+  color: var(--text);
+}
+
+.eva-day-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.eva-day-heading h1,
+.eva-other-title {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 29px;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.eva-date {
+  margin: 5px 0 0;
+  color: #929292;
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+.eva-add-round {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 39px;
+  border: 1px solid #eeeeee;
+  border-radius: 50%;
+  background: #fff;
+  color: #37332f;
+  font-size: 24px;
+  font-weight: 400;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+}
+
+.eva-quick-add {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 35px;
+  gap: 7px;
+  margin-bottom: 27px;
+  padding: 6px;
+  border: 1px solid #efefef;
+  border-radius: 15px;
+  background: #fff;
+}
+
+.eva-quick-add input {
+  width: 100%;
+  min-width: 0;
+  padding: 0 8px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #292929;
+  font-size: 12px;
+}
+
+.eva-quick-add input::placeholder {
+  color: #a3a3a3;
+}
+
+.eva-quick-add select {
+  max-width: 82px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #777;
+  font-size: 11px;
+}
+
+.eva-quick-add button {
+  width: 35px;
+  height: 35px;
+  border: none;
+  border-radius: 10px;
+  background: #f2f2f2;
+  color: #333;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.eva-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.eva-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 11px;
+}
+
+.eva-section-heading h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.eva-section-heading span {
+  color: #a0a0a0;
+  font-size: 11px;
+}
+
+.eva-task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eva-task {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 42px;
+  padding: 8px 10px;
+  border-radius: 9px;
+}
+
+.eva-task.morning {
+  background: #fff0ef;
+}
+
+.eva-task.day {
+  background: #f0f3ff;
+}
+
+.eva-task.evening {
+  background: #f0f7ef;
+}
+
+.eva-check {
+  display: flex;
+  flex: 0 0 17px;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  padding: 0;
+  border: 1px solid #c9c9c9;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+  color: #fff;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.eva-task.morning .eva-check {
+  border-color: #e5a6a0;
+}
+
+.eva-task.day .eva-check {
+  border-color: #a9b6ef;
+}
+
+.eva-task.evening .eva-check {
+  border-color: #a5c7a1;
+}
+
+.eva-task.completed .eva-check {
+  border-color: #7da778;
+  background: #7da778;
+}
+
+.eva-task-name {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: #343434;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.eva-task.completed .eva-task-name {
+  color: #929292;
+  text-decoration: line-through;
+}
+
+.eva-task-time {
+  color: #999;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.eva-delete {
+  padding: 0 2px;
+  border: none;
+  background: transparent;
+  color: #aaa;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.eva-empty-add {
+  width: 100%;
+  padding: 10px;
+  border: 1px dashed #e8e8e8;
+  border-radius: 9px;
+  background: transparent;
+  color: #a0a0a0;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.eva-other-title {
+  margin: 8px 0;
+}
+
+@media (max-width: 380px) {
+  .eva-day-heading h1 {
+    font-size: 27px;
+  }
+
+  .eva-quick-add {
+    grid-template-columns: minmax(0, 1fr) auto 32px;
+    gap: 4px;
+  }
+
+  .eva-quick-add select {
+    max-width: 72px;
+    font-size: 10px;
+  }
+
+  .eva-quick-add button {
+    width: 32px;
+    height: 35px;
+  }
+}/* Исправление логотипа */
+a.brand,
+a.brand:visited,
+a.brand:hover,
+a.brand:active {
+  color: var(--text);
+  text-decoration: none !important;
+}
+
+/* Круглые кнопки нижней навигации */
+.bottom-nav .nav-item {
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.bottom-nav .nav-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+}/* Палитра ru. */
+:root {
+  --bg: #faf7f2;
+  --surface: #fffdf9;
+  --text: #49372b;
+  --muted: #a39486;
+  --accent: #8b654b;
+  --accent-soft: #eee2d5;
+  --border: #e9dfd4;
+  --nav-bg: rgba(250, 247, 242, 0.97);
+  --shadow: 0 3px 14px rgba(76, 53, 36, 0.045);
+}
+
+/* Логотип */
+.topbar {
+  height: 72px;
+  padding: 0 22px;
+  background: var(--bg);
+}
+
+a.brand,
+a.brand:visited,
+a.brand:hover,
+a.brand:active {
+  display: inline-block;
+  color: #65452f;
+  font-family: 'Playfair Display', serif;
+  font-size: 39px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -2px;
+  text-decoration: none;
+}
+
+a.brand span {
+  color: #b38a65;
+}
+
+/* Нижняя навигация */
+.bottom-nav {
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(9px, 3.3vw, 19px);
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 12px 10px calc(12px + env(safe-area-inset-bottom));
+  border-top: 1px solid #e9dfd4;
+  background: var(--nav-bg);
+}
+
+.bottom-nav .nav-item {
+  display: flex;
+  flex: 0 1 48px;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.bottom-nav .nav-circle {
+  display: flex;
+  flex: 0 0 46px;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  min-height: 46px;
+  border: 1px solid #e7d9ca;
+  border-radius: 50%;
+  background: #fffdf9;
+  color: #8b654b;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.bottom-nav .nav-item.active .nav-circle {
+  border-color: #8b654b;
+  background: #8b654b;
+  color: #fffaf4;
+}
+
+#app {
+  padding: 10px 22px 28px;
+}
+
+@media (max-width: 380px) {
+  .bottom-nav {
+    gap: 7px;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .bottom-nav .nav-item {
+    flex-basis: 44px;
+    height: 44px;
+  }
+
+  .bottom-nav .nav-circle {
+    flex-basis: 42px;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
+    font-size: 20px;
+  }
+}/* Добавление задачи внутри раздела */
+.eva-inline-add {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.eva-inline-add input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  outline: none;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+.eva-inline-add input:focus {
+  border-color: var(--accent);
+}
+
+.eva-inline-add button {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--accent);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.eva-task-name {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.eva-task.completed .eva-task-name {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+/* Раздел «Учёба» */
+.study-screen {
+  color: var(--text);
+}
+
+.study-screen h1 {
+  margin-bottom: 24px;
+}
+
+.study-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 24px 0 14px;
+}
+
+.study-section-heading h2,
+.study-chart-card h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.study-add-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 0;
+  clip-path: polygon(
+    7px 0, 100% 0, 100% calc(100% - 7px),
+    calc(100% - 7px) 100%, 0 100%, 0 7px
+  );
+  background: var(--accent);
+  color: #fffaf4;
+  font-size: 25px;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.study-subject-form,
+.study-lesson-form {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.study-subject-form[hidden] {
+  display: none;
+}
+
+.study-subject-form input,
+.study-lesson-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+.study-subject-form button,
+.study-lesson-form button {
+  padding: 0 15px;
+  border: none;
+  background: var(--accent);
+  color: #fffaf4;
+  font: inherit;
+  cursor: pointer;
+  clip-path: polygon(
+    7px 0, 100% 0, 100% calc(100% - 7px),
+    calc(100% - 7px) 100%, 0 100%, 0 7px
+  );
+}
+
+.study-subject-list,
+.study-lesson-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.study-subject,
+.study-lesson {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  font: inherit;
+}
+
+.study-subject.selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.study-empty {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.study-chart-card {
+  margin-top: 30px;
+  padding: 17px 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.study-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  gap: 8px;
+  margin-top: 10px;
+  overflow: visible;
+}
+
+.study-chart-day {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  height: 100%;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.study-chart-track {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: 95px;
+  border-bottom: 1px solid var(--border);
+  background: repeating-linear-gradient(
+    to top,
+    transparent 0,
+    transparent 23px,
+    var(--border) 24px
+  );
+}
+
+.study-chart-bar {
+  width: 9px;
+  min-height: 0;
+  background: var(--accent);
+  transition: height 0.2s ease;
+}
+
+.study-chart-day small {
+  font-size: 10px;
+}
+
+.study-lesson {
+  justify-content: flex-start;
+}
+
+.study-lesson > span {
+  flex: 1;
+}
+
+.study-lesson.completed > span {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.study-delete-subject {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 12px;
+}
+.study-subject-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.study-subject-row .study-subject {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.study-remove-item {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.study-lesson-form[hidden] {
+  display: none;
+}
+
+.study-lesson-form select {
+  max-width: 120px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.study-lesson small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.study-chart-subtitle {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.study-lesson-list {
+  margin-top: 12px;
+}/* Заголовки блоков учёбы */
+.study-section-heading {
+  margin: 25px 0 14px;
+}
+
+.study-section-heading h2 {
+  padding: 11px 15px;
+  background: var(--accent);
+  color: #fffaf4;
+  font-size: 15px;
+  font-weight: 400;
+  clip-path: polygon(
+    8px 0, 100% 0, 100% calc(100% - 8px),
+    calc(100% - 8px) 100%, 0 100%, 0 8px
+  );
+}
+
+/* Плюс остаётся отдельным элементом */
+.study-add-button {
+  width: 38px;
+  height: 38px;
+  background: var(--accent);
+  color: #fffaf4;
+  clip-path: polygon(
+    8px 0, 100% 0, 100% calc(100% - 8px),
+    calc(100% - 8px) 100%, 0 100%, 0 8px
+  );
+}
+
+/* Убираем рамку вокруг графика */
+.study-chart-card {
+  margin-top: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.study-chart-card h2 {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.study-chart-subtitle {
+  margin-top: 6px;
+}
+
+/* График без внешней карточки */
+.study-chart {
+  margin-top: 18px;
+}
+
+.study-chart-track {
+  background: repeating-linear-gradient(
+    to top,
+    transparent 0,
+    transparent 23px,
+    var(--border) 24px
+  );
+}
+/* Линейный график прогресса */
+.study-line-graph {
+  display: block;
+  flex: none;
+  width: 100%;
+  height: 110px;
+  margin: 0;
+  overflow: visible;
+}
+
+
+.study-grid line {
+  stroke: var(--border);
+  stroke-width: 0.7;
+  stroke-dasharray: 3 5;
+}
+
+.study-line-segment {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: butt;
+}
+
+.study-point {
+  display: none;
+}
+
+.study-chart-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+  margin-top: 7px;
+  text-align: center;
+}
+
+.study-chart-day span {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.study-chart-day small {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--text);
+}
+
+.study-chart-track {
+  display: none;
+}
+.study-line-graph {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.study-line-segment {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: butt;
+}/* Правильное положение графика учёбы */
+.study-chart-card {
+  display: block;
+  position: relative;
+  width: 100%;
+  margin-top: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  overflow: hidden;
+  clear: both;
+}
+
+.study-chart-card h2,
+.study-chart-card .study-chart-subtitle {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.study-chart {
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.study-line-graph {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 110px;
+  margin: -18px auto 0;
+  transform: none;
+  overflow: visible;
+}
+/* Блок прогресса недели */
+.study-chart-card {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 36px auto 24px;
+  padding: 20px 16px 16px;
+  border: 1px solid var(--border);
+  background: var(--surface, #f5eee5);
+  clip-path: polygon(
+    12px 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%,
+    0 12px
+  );
+}
+
+.study-chart-card h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.study-chart-card {
+  display: block;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 28px auto 24px;
+  padding: 20px 16px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface, #f5eee5);
+  clip-path: none;
+  overflow: hidden;
+}
+
+.study-chart-card h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.study-chart-card .study-chart-subtitle {
+  margin: 6px 0 10px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.study-chart {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.study-line-graph {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+.study-chart {
+  display: block;
+  width: 100%;
+  margin: 0;
+  overflow: visible;
+}
+
+.study-line-graph {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  transform: translateY(-4px);
+}
+/* ===== ПИТАНИЕ ===== */
+
+.nutrition-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 24px;
+  color: #6f5547;
+}
+
+.nutrition-page h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.nutrition-page .eva-other-title {
+  margin-bottom: 0;
+}
+
+.nutrition-summary,
+.nutrition-macros,
+.nutrition-meal {
+  background: #f8f4ee;
+  border: 1px solid #e9dfd3;
+  border-radius: 20px;
+}
+
+.nutrition-summary {
+  padding: 18px;
+}
+
+.nutrition-caption {
+  margin: 0 0 12px;
+  color: #9a8778;
+  font-size: 14px;
+}
+
+.nutrition-calories {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+
+.nutrition-calories strong {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.nutrition-calories span {
+  color: #9a8778;
+  font-size: 14px;
+}
+
+.nutrition-progress {
+  height: 7px;
+  overflow: hidden;
+  background: #e9dfd3;
+  border-radius: 10px;
+}
+
+.nutrition-progress div {
+  height: 100%;
+  background: #9a7b67;
+  border-radius: inherit;
+  transition: width 0.25s ease;
+}
+
+.nutrition-macros {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+  padding: 18px;
+}
+
+.nutrition-macros > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.nutrition-macros span {
+  color: #9a8778;
+}
+
+.nutrition-macros strong {
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.nutrition-meals {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nutrition-meal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+}
+
+.nutrition-meal strong {
+  font-size: 15px;
+}
+
+.nutrition-meal p {
+  margin: 7px 0 0;
+  color: #9a8778;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.nutrition-meal button {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: #9a7b67;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.nutrition-empty {
+  margin: 0;
+  padding: 4px 2px;
+  color: #a69689;
+  font-size: 14px;
+}
+
+.nutrition-add {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid #9a7b67;
+  border-radius: 15px;
+  background: #9a7b67;
+  color: #fffaf5;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.nutrition-add:active {
+  opacity: 0.8;
+}
+/* Красивые поля норм питания */
+
+.nutrition-goals {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.nutrition-goals label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 13px;
+  background: #f2e9df;
+  border: 1px solid #e4d5c6;
+  border-radius: 16px;
+  color: #8b7462;
+  font-size: 12px;
+}
+
+.nutrition-goals input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #604a3c;
+  font-family: inherit;
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.nutrition-goals input:focus {
+  color: #9a7b67;
+}
+
+.nutrition-save {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 18px;
+  border: 1px solid #8d705c;
+  border-radius: 15px;
+  background: #8d705c;
+  color: #fffaf5;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.nutrition-save:active {
+  transform: scale(0.98);
+  background: #765b49;
+}
+
+.nutrition-goals input:focus-visible {
+  outline: 1px solid #b69a83;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+/* Поля добавления продукта */
+
+.nutrition-product-form {
+  margin-top: 16px;
+  padding: 16px;
+  background: #faf6f0;
+  border: 1px solid #e8ddd1;
+  border-radius: 18px;
+}
+
+.nutrition-product-form[hidden] {
+  display: none;
+}
+
+.nutrition-product-form > label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  color: #8b7462;
+  font-size: 13px;
+}
+
+.nutrition-product-form input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #e8ddd1;
+  border-radius: 12px;
+  background: #fffdf9;
+  color: #604a3c;
+  font-family: inherit;
+  font-size: 15px;
+  outline: none;
+}
+
+.nutrition-product-form input:focus {
+  border-color: #a68a73;
+}
+
+.nutrition-product-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.nutrition-product-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #8b7462;
+  font-size: 12px;
+}
+
+.nutrition-product-fields input {
+  padding: 12px 10px;
+  border-radius: 12px;
+  background: #f2e9df;
+  border-color: transparent;
+  font-size: 17px;
+}
+
+.nutrition-product-form .nutrition-save {
+  width: 100%;
+  border-radius: 14px;
+}
