@@ -421,73 +421,56 @@ function renderNutrition() {
     });
   });
 document.querySelectorAll('.nutrition-barcode-button').forEach(button => {
-    button.addEventListener('click', async () => {
-      const form = button.closest('.nutrition-product-form');
-      const barcodeInput = form.querySelector('[name="barcode"]');
-      const message = form.querySelector('.nutrition-barcode-message');
-      const barcode = barcodeInput.value.trim();
+  button.addEventListener('click', async () => {
+    const form = button.closest('.nutrition-product-form');
+    const barcodeInput = form.querySelector('[name="barcode"]');
+    const message = form.querySelector('.nutrition-barcode-message');
+    const barcode = barcodeInput.value.trim();
 
-      if (!/^\d{8,14}$/.test(barcode)) {
-        message.textContent = 'Введи корректный штрихкод из 8–14 цифр.';
+    if (!/^\d{8,14}$/.test(barcode)) {
+      message.textContent = 'Введи корректный штрихкод из 8–14 цифр.';
+      return;
+    }
+
+    button.disabled = true;
+    message.textContent = 'Ищу продукт в базе FoodBase…';
+
+    try {
+      const response = await fetch(
+        `https://ru-food-api.rukaechka2010.workers.dev/lookup?barcode=${encodeURIComponent(barcode)}`
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        message.textContent =
+          response.status === 404
+            ? 'Продукт не найден. Введи данные вручную.'
+            : (data.error || 'Не удалось найти продукт. Попробуй ещё раз.');
         return;
       }
 
-      button.disabled = true;
-      message.textContent = 'Ищу продукт в базе…';
+      const nutrients = data.nutrition_summary || {};
+      const nameInput = form.querySelector('[name="name"]');
 
-      try {
-        const response = await fetch(
-          `https://world.openfoodfacts.org/api/v2/product/${barcode}.json`
-        );
+      nameInput.value = data.name_default || data.name || '';
+      form.elements.calories.value = nutrients.energy_kcal ?? '';
+      form.elements.protein.value = nutrients.proteins_g ?? '';
+      form.elements.fat.value = nutrients.fat_g ?? '';
+      form.elements.carbs.value = nutrients.carbs_g ?? '';
 
-        if (!response.ok) {
-          throw new Error('Ошибка сети');
-        }
-
-        const data = await response.json();
-        const product = data.product;
-
-        if (data.status !== 1 || !product) {
-          message.textContent = 'Продукт не найден. Проверь штрихкод или введи данные вручную.';
-          return;
-        }
-
-        const nutrients = product.nutriments || {};
-        const nameInput = form.querySelector('[name="name"]');
-
-        nameInput.value =
-          product.product_name_ru ||
-          product.product_name ||
-          product.product_name_en ||
-          '';
-
-        form.elements.calories.value = Math.round(
-          nutrients['energy-kcal_100g'] ??
-          ((nutrients['energy-kj_100g'] || 0) / 4.184)
-        );
-
-        form.elements.protein.value = Math.round(
-          (nutrients.proteins_100g || 0) * 10
-        ) / 10;
-
-        form.elements.fat.value = Math.round(
-          (nutrients.fat_100g || 0) * 10
-        ) / 10;
-
-        form.elements.carbs.value = Math.round(
-          (nutrients.carbohydrates_100g || 0) * 10
-        ) / 10;
-
-        message.textContent =
-          'Продукт найден! Проверь данные: показатели указаны на 100 г.';
-      } catch (error) {
-  console.error('Ошибка поиска продукта:', error);
-  message.textContent = 'Ошибка: ' + error.message;
-} finally {
-  button.disabled = false;
-}
-    });
-  });document.querySelectorAll('.nutrition-camera-button').forEach(button => {
+      message.textContent =
+        'Продукт найден! Проверь данные: показатели указаны на 100 г.';
+    } catch (error) {
+      console.error('Ошибка поиска продукта:', error);
+      message.textContent =
+        'Не удалось связаться с базой. Проверь интернет и попробуй ещё раз.';
+    } finally {
+      button.disabled = false;
+    }
+  });
+});
+  document.querySelectorAll('.nutrition-camera-button').forEach(button => {
     button.addEventListener('click', async () => {
       const form = button.closest('.nutrition-product-form');
       const barcodeInput = form.querySelector('[name="barcode"]');
