@@ -299,11 +299,11 @@ function renderNutrition() {
                     <div>
                       <strong>${escapeHTML(meal.name)}</strong>
                       <p>
-                        ${meal.calories} ккал ·
-                        Б ${meal.protein} г ·
-                        Ж ${meal.fat} г ·
-                        У ${meal.carbs} г
-                      </p>
+  ${meal.amount ? `${meal.amount} г · ` : ''}${Math.round(Number(meal.calories) || 0)} ккал ·
+  Б ${(Number(meal.protein) || 0).toFixed(1)} г ·
+  Ж ${(Number(meal.fat) || 0).toFixed(1)} г ·
+  У ${(Number(meal.carbs) || 0).toFixed(1)} г
+</p>
                     </div>
                     <button type="button"
                       data-delete-meal="${type.id}"
@@ -361,24 +361,32 @@ function renderNutrition() {
 
 </div>
 
-                  <div class="nutrition-product-fields">
-                    <label>Ккал
-                      <input name="calories" type="number" min="0"
-                        value="0" required>
-                    </label>
-                    <label>Белки, г
-                      <input name="protein" type="number" min="0"
-                        value="0" required>
-                    </label>
-                    <label>Жиры, г
-                      <input name="fat" type="number" min="0"
-                        value="0" required>
-                    </label>
-                    <label>Углеводы, г
-                      <input name="carbs" type="number" min="0"
-                        value="0" required>
-                    </label>
-                  </div>
+                  <label class="nutrition-amount-label">
+                Количество, г
+                <input name="amount" type="number" min="1"
+                  value="100" required>
+              </label>
+              <p class="nutrition-portion-preview">
+                Укажи КБЖУ на 100 г — расчёт порции появится здесь.
+              </p>
+              <div class="nutrition-product-fields">
+                <label>Ккал на 100 г
+                  <input name="calories" type="number" min="0"
+                    step="any" value="0" required>
+                </label>
+                <label>Белки, г на 100 г
+                  <input name="protein" type="number" min="0"
+                    step="any" value="0" required>
+                </label>
+                <label>Жиры, г на 100 г
+                  <input name="fat" type="number" min="0"
+                    step="any" value="0" required>
+                </label>
+                <label>Углеводы, г на 100 г
+                  <input name="carbs" type="number" min="0"
+                    step="any" value="0" required>
+                </label>
+              </div>
 
                   <button class="nutrition-save" type="submit">
                     Сохранить продукт
