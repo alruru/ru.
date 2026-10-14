@@ -533,24 +533,56 @@ document.querySelectorAll('.nutrition-barcode-button').forEach(button => {
     });
   });
   document.querySelectorAll('[data-product-form]').forEach(form => {
-    form.addEventListener('submit', event => {
-      event.preventDefault();
+  const amountInput = form.elements.amount;
+  const preview = form.querySelector('.nutrition-portion-preview');
 
-      const values = new FormData(form);
-      const type = form.dataset.productForm;
+  function updatePortionPreview() {
+    const amount = Number(amountInput.value) || 0;
+    const factor = amount / 100;
 
-      nutrition.mealsByType[type].push({
-        name: String(values.get('name')).trim(),
-        calories: Number(values.get('calories')) || 0,
-        protein: Number(values.get('protein')) || 0,
-        fat: Number(values.get('fat')) || 0,
-        carbs: Number(values.get('carbs')) || 0
-      });
+    const calories = (Number(form.elements.calories.value) || 0) * factor;
+    const protein = (Number(form.elements.protein.value) || 0) * factor;
+    const fat = (Number(form.elements.fat.value) || 0) * factor;
+    const carbs = (Number(form.elements.carbs.value) || 0) * factor;
 
-      saveNutrition();
-      renderNutrition();
-    });
+    preview.textContent =
+      `Для ${amount} г: ${Math.round(calories)} ккал · ` +
+      `Б ${protein.toFixed(1)} г · Ж ${fat.toFixed(1)} г · ` +
+      `У ${carbs.toFixed(1)} г`;
+  }
+
+  [
+    amountInput,
+    form.elements.calories,
+    form.elements.protein,
+    form.elements.fat,
+    form.elements.carbs
+  ].forEach(input => {
+    input.addEventListener('input', updatePortionPreview);
   });
+
+  updatePortionPreview();
+
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+
+    const values = new FormData(form);
+    const amount = Number(values.get('amount')) || 100;
+    const factor = amount / 100;
+
+    nutrition.mealsByType[form.dataset.productForm].push({
+      name: String(values.get('name')).trim(),
+      amount,
+      calories: (Number(values.get('calories')) || 0) * factor,
+      protein: (Number(values.get('protein')) || 0) * factor,
+      fat: (Number(values.get('fat')) || 0) * factor,
+      carbs: (Number(values.get('carbs')) || 0) * factor
+    });
+
+    saveNutrition();
+    renderNutrition();
+  });
+});
 
   document.querySelectorAll('[data-delete-meal]').forEach(button => {
     button.addEventListener('click', () => {
