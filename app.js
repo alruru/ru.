@@ -466,6 +466,7 @@ document.querySelectorAll('.nutrition-barcode-button').forEach(button => {
       form.elements.protein.value = nutrients.proteins_g ?? '';
       form.elements.fat.value = nutrients.fat_g ?? '';
       form.elements.carbs.value = nutrients.carbs_g ?? '';
+form.querySelector('[name="calories"]').dispatchEvent(new Event('input', { bubbles: true }));
 
       message.textContent =
         'Продукт найден! Проверь данные: показатели указаны на 100 г.';
