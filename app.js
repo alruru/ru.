@@ -584,7 +584,7 @@ document.querySelectorAll('.nutrition-barcode-button').forEach(button => {
       try {
         await scanner.start(
           { facingMode: 'environment' },
-          { fps: 10, qrbox: { width: 300, height: 150 } },
+          { fps: 10 },
           async decodedText => {
             barcodeInput.value = decodedText;
 message.textContent = 'Штрихкод считан: ' + decodedText;
