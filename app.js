@@ -443,40 +443,110 @@ document.querySelectorAll('.nutrition-barcode-button').forEach(button => {
     button.disabled = true;
     message.textContent = 'Ищу продукт в базе FoodBase…';
 
-    try {
-      const response = await fetch(
-        `https://ru-food-api.rukaechka2010.workers.dev/lookup?barcode=${encodeURIComponent(barcode)}`
-      );
+   try {
+  let data = null;
+  let nutrients = null;
+  let productName = '';
 
-      const data = await response.json();
+  // Сначала пробуем FoodBase
+  try {
+    const response = await fetch(
+      `https://ru-food-api.rukaechka2010.workers.dev/lookup?barcode=${encodeURIComponent(barcode)}`
+    );
 
-      if (!response.ok) {
-        message.textContent =
-          response.status === 404
-            ? 'Продукт не найден. Введи данные вручную.'
-            : (data.error || 'Не удалось найти продукт. Попробуй ещё раз.');
-        return;
+    if (response.ok) {
+      const result = await response.json();
+      const summary = result.nutrition_summary || {};
+
+      const hasNutrition = [
+        summary.energy_kcal,
+        summary.proteins_g,
+        summary.fat_g,
+        summary.carbs_g
+      ].some(value => value !== null && value !== undefined && value !== '');
+
+      if (hasNutrition) {
+        data = result;
+        nutrients = summary;
+        productName = result.name_default || result.name || '';
       }
-
-      const nutrients = data.nutrition_summary || {};
-      const nameInput = form.querySelector('[name="name"]');
-
-      nameInput.value = data.name_default || data.name || '';
-      form.elements.calories.value = nutrients.energy_kcal ?? '';
-      form.elements.protein.value = nutrients.proteins_g ?? '';
-      form.elements.fat.value = nutrients.fat_g ?? '';
-      form.elements.carbs.value = nutrients.carbs_g ?? '';
-form.querySelector('[name="calories"]').dispatchEvent(new Event('input', { bubbles: true }));
-
-      message.textContent =
-        'Продукт найден! Проверь данные: показатели указаны на 100 г.';
-    } catch (error) {
-      console.error('Ошибка поиска продукта:', error);
-      message.textContent =
-        'Не удалось связаться с базой. Проверь интернет и попробуй ещё раз.';
-    } finally {
-      button.disabled = false;
     }
+  } catch (error) {
+    console.warn('FoodBase недоступна:', error);
+  }
+
+  // Если FoodBase не дала пищевые данные — пробуем Open Food Facts
+  if (!nutrients) {
+    const response = await fetch(
+      `https://world.openfoodfacts.org/api/v2/product/${encodeURIComponent(barcode)}.json?fields=product_name,product_name_ru,brands,nutriments`
+    );
+
+    const result = await response.json();
+    const product = result.product;
+    const n = product?.nutriments;
+
+    const calories = n?.['energy-kcal_100g'] ?? n?.['energy-kcal'];
+    const protein = n?.proteins_100g;
+    const fat = n?.fat_100g;
+    const carbs = n?.carbohydrates_100g;
+
+    const hasNutrition = [
+      calories, protein, fat, carbs
+    ].every(value =>
+      value !== null &&
+      value !== undefined &&
+      value !== '' &&
+      Number.isFinite(Number(value))
+    );
+
+    if (result.status !== 1 || !product) {
+      message.textContent =
+        'В обеих базах продукт не найден. Введи данные с упаковки.';
+      return;
+    }
+
+    if (!hasNutrition) {
+      message.textContent =
+        'Продукт найден, но полного КБЖУ в базе нет. Проверь упаковку и введи данные вручную.';
+      return;
+    }
+
+    nutrients = {
+      energy_kcal: Number(calories),
+      proteins_g: Number(protein),
+      fat_g: Number(fat),
+      carbs_g: Number(carbs)
+    };
+
+    productName =
+      product.product_name_ru ||
+      product.product_name ||
+      product.brands ||
+      '';
+  }
+
+  // Общая часть: заполняем поля независимо от источника
+  const nameInput = form.querySelector('[name="name"]');
+
+  nameInput.value = productName;
+  form.elements.calories.value = nutrients.energy_kcal;
+  form.elements.protein.value = nutrients.proteins_g;
+  form.elements.fat.value = nutrients.fat_g;
+  form.elements.carbs.value = nutrients.carbs_g;
+
+  form.elements.calories.dispatchEvent(
+    new Event('input', { bubbles: true })
+  );
+
+  message.textContent =
+  'Продукт найден! Проверь данные: показатели указаны на 100 г.';
+} catch (error) {
+  console.error('Ошибка поиска продукта:', error);
+  message.textContent =
+    'Не удалось связаться с базой. Проверь интернет и попробуй ещё раз.';
+} finally {
+  button.disabled = false;
+}
   });
 });
   document.querySelectorAll('.nutrition-camera-button').forEach(button => {
