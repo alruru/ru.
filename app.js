@@ -351,7 +351,10 @@ function renderNutrition() {
   Сканировать камерой
 
 </button>
-<div class="nutrition-camera-reader" hidden></div>
+<div class="nutrition-camera-frame" hidden>
+  <div class="nutrition-camera-reader"></div>
+  <div class="nutrition-scan-line"></div>
+</div>
 <button type="button" class="nutrition-barcode-button">
 
   Найти продукт
@@ -553,7 +556,8 @@ document.querySelectorAll('.nutrition-barcode-button').forEach(button => {
     button.addEventListener('click', async () => {
       const form = button.closest('.nutrition-product-form');
       const barcodeInput = form.querySelector('[name="barcode"]');
-      const reader = form.querySelector('.nutrition-camera-reader');
+      const frame = form.querySelector('.nutrition-camera-frame');
+const reader = form.querySelector('.nutrition-camera-reader');
       const message = form.querySelector('.nutrition-barcode-message');
 
       if (typeof Html5Qrcode === 'undefined') {
@@ -565,8 +569,8 @@ document.querySelectorAll('.nutrition-barcode-button').forEach(button => {
         return;
       }
 
-      reader.hidden = false;
-      reader.id = 'nutrition-reader';
+      frame.hidden = false;
+reader.id = 'nutrition-reader';
       button.disabled = true;
 
       const scanner = new Html5Qrcode(reader.id, {
@@ -594,7 +598,7 @@ message.textContent = 'Штрихкод считан: ' + decodedText;
             } catch (error) {}
 
             reader.dataset.running = 'false';
-            reader.hidden = true;
+            frame.hidden = true;
             button.disabled = false;
 
             form.querySelector('.nutrition-barcode-button').click();
@@ -605,7 +609,7 @@ message.textContent = 'Штрихкод считан: ' + decodedText;
         reader.dataset.running = 'true';
         message.textContent = 'Наведи камеру на штрихкод.';
       } catch (error) {
-        reader.hidden = true;
+        frame.hidden = true;
         button.disabled = false;
         message.textContent =
           'Не удалось открыть камеру. Проверь разрешение и HTTPS.';

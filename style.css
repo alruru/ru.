@@ -1230,13 +1230,51 @@ a.brand span {
   cursor: wait;
 }
 
-.nutrition-camera-reader {
+.nutrition-camera-frame {
+  position: relative;
   width: 100%;
-  overflow: hidden;
-  border-radius: 16px;
   margin-top: 12px;
+  overflow: hidden;
+  border: 1px solid #d8c5ad;
+  border-radius: 16px;
+  background: #211b17;
 }
 
-.nutrition-camera-reader[hidden] {
+.nutrition-camera-frame[hidden] {
   display: none;
+}
+
+.nutrition-camera-reader {
+  width: 100%;
+  min-height: 220px;
+  overflow: hidden;
+}
+
+.nutrition-camera-reader video {
+  display: block;
+  width: 100% !important;
+  height: 260px !important;
+  object-fit: cover;
+}
+
+.nutrition-scan-line {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 8%;
+  right: 8%;
+  height: 2px;
+  background: #e4c49a;
+  box-shadow: 0 0 8px #e4c49a;
+  pointer-events: none;
+  animation: nutrition-scan-move 2s ease-in-out infinite alternate;
+}
+
+@keyframes nutrition-scan-move {
+  from {
+    transform: translateY(-65px);
+  }
+  to {
+    transform: translateY(65px);
+  }
 }
