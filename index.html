@@ -403,7 +403,7 @@ $('#a_go').onclick=async()=>{const er=m=>$('#a_r').textContent=m,e=$('#a_e').val
 try{if(mode=='reg'){const n=$('#a_n').value.trim();if(!n)throw new Error('Введите имя');await recShow(await api('/register',{name:n,email:e,password:p}),true)}
 else if(mode=='login')await enterSrv(await api('/login',{email:e,password:p}),false);
 else await recShow(await api('/recover',{email:e,code:$('#a_c').value,password:p}),false)}
-catch(x){if(x.message=='NET'){er('Нет связи с сервером.');$('#a_lc').style.display='block'}else er(x.message)}
+catch(x){if(x.message=='NET'){er('Нет связи с сервером ('+API.replace('https://','')+').');$('#a_lc').style.display='block'}else er(x.message)}
 bt.disabled=false};
 $('#a_lc').onclick=()=>{loc=true;showAuthL(US().length?'login':'reg')}};
 A.lo=async()=>{await push();if(cu)localStorage.removeItem('ru.v1.'+cu);tok='';sI0.call(localStorage,'ru.tok','');cu=null;sI0.call(localStorage,'ru.sess','');S=Object.assign({},D);norm();showAuth('login')};
